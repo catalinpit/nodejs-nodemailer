@@ -1,4 +1,8 @@
+const express = require("express");
 const nodemailer = require("nodemailer");
+
+const app = express();
+const port = 3333 || process.env.PORT;
 
 const transporter = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
@@ -9,17 +13,27 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-message = {
-  from: "hasura@email.com",
-  to: "catalin@hasura.io",
-  subject: "Automated email",
-  text: "Event triggers in Hasura",
-};
+app.get("/", (req, res) => {
+  message = {
+    from: "hasura@email.com",
+    to: "catalin@hasura.io",
+    subject: "Automated email",
+    text: "Event triggers in Hasura",
+  };
 
-transporter.sendMail(message, (error, info) => {
-  if (error) {
-    console.log(error);
-  }
+  transporter.sendMail(message, (error, info) => {
+    if (error) {
+      console.log(error);
+      
+      res.send(error);
+    }
 
-  console.log(info);
+    console.log(info);
+
+    res.send(info);
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Server running on ${port}`);
 });
