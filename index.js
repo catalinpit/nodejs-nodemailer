@@ -14,24 +14,22 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get("/", (req, res) => {
-  message = {
-    from: "hasura@email.com",
-    to: "catalin@hasura.io",
-    subject: "Automated email",
-    text: "Event triggers in Hasura",
-  };
+  try {
+    const message = {
+      from: "hasura@email.com",
+      to: "catalin@hasura.io",
+      subject: "Automated email",
+      text: "Event triggers in Hasura",
+    };
 
-  transporter.sendMail(message, (error, info) => {
-    if (error) {
-      console.log(error);
-      
-      res.send(error);
-    }
+    transporter.sendMail(message, (error, info) => {
+      console.log(info);
 
-    console.log(info);
-
-    res.send(info);
-  });
+      res.send(info);
+    });
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 app.listen(port, () => {
