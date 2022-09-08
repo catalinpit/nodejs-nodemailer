@@ -2,7 +2,7 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 
 const app = express();
-const port = 3333 || process.env.PORT;
+const port = process.env.PORT || 3333;
 
 const transporter = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
