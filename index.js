@@ -15,11 +15,12 @@ const transporter = nodemailer.createTransport({
 
 app.get("/", (req, res) => {
   try {
+    console.log(req.query);
     const message = {
       from: "hasura@email.com",
-      to: "catalin@hasura.io",
-      subject: "Automated email",
-      text: "Event triggers in Hasura",
+      to: req.query.email,
+      subject: "Welcome email",
+      text: `Welcome to Hasura, ${req.query.name}! 🥳`,
     };
 
     transporter.sendMail(message, (error, info) => {
